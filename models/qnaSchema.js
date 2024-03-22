@@ -14,4 +14,4 @@ let qnaSchema = new mongoose.Schema({
   },
 });
 
-module.exports = qnaSchema;
+module.exports = mongoose.model("qnas", qnaSchema);

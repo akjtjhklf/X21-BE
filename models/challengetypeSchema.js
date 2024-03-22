@@ -6,4 +6,4 @@ let challengetypeSchema = new mongoose.Schema({
   },
 });
 
-module.exports = challengetypeSchema;
+module.exports = mongoose.model("challenge", challengetypeSchema);

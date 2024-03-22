@@ -35,4 +35,4 @@ let userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = userSchema;
+module.exports = mongoose.model("users", userSchema);

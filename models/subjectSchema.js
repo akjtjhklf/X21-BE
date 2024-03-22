@@ -7,4 +7,4 @@ let subjectSchema = new mongoose.Schema({
   },
 });
 
-module.exports = subjectSchema;
+module.exports = mongoose.model("subject", subjectSchema);

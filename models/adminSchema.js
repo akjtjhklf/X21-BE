@@ -18,4 +18,4 @@ let adminSchema = new mongoose.Schema({
   },
 });
 
-module.exports = adminSchema;
+module.exports = mongoose.model("admin", adminSchema);

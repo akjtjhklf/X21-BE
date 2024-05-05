@@ -3,12 +3,14 @@ const Qna = require("../models/qnaSchema");
 exports.getAllQuestions = async function (req, res) {
   const { subjectId, challengeType } = req.query;
 
+  console.log(subjectId);
   let questionCount = 0;
   if (challengeType == "hangman") questionCount = 1;
   else if (challengeType == "qnas") questionCount = 10;
   else if (challengeType == "arrange") questionCount = 5;
 
   const questions = await Qna.find({ subjectId, challengeType });
+  console.log(questions);
 
   // pick random questions from question list
   const tmpQuestions = questions.sort(() => 0.5 - Math.random()); // shuffle questions
@@ -50,14 +52,13 @@ exports.createNewQuestion = async function (req, res) {
       rightAnswer,
       subjectId,
     };
-
-    if (challengeType === 'hangman') {
+    if (challengeType === "hangman") {
       delete newQuestionData.answers;
-    } else if(challengeType === 'arrange') {
-      newQuestionData.rightAnswer = rightAnswer.split(",")
-    }
-    else {
-      newQuestionData.answers=answers
+    } else if (challengeType === "arrange") {
+      delete newQuestionData.answers;
+      newQuestionData.rightAnswer = rightAnswer.split(",");
+    } else {
+      newQuestionData.answers = answers;
     }
 
     const newQuestion = new Qna(newQuestionData);
@@ -70,12 +71,17 @@ exports.createNewQuestion = async function (req, res) {
   }
 };
 
-
 exports.updateQuestionById = async function (req, res) {
   const { id } = req.params;
   const { question, answers, rightAnswer, subjectId, challengeType } = req.body;
   try {
-    await Qna.findByIdAndUpdate(id, { question, answers, rightAnswer, subjectId, challengeType });
+    await Qna.findByIdAndUpdate(id, {
+      question,
+      answers,
+      rightAnswer,
+      subjectId,
+      challengeType,
+    });
     res.status(200).json({ message: "Question updated successfully!" });
   } catch (err) {
     console.error(err);
@@ -93,5 +99,3 @@ exports.deleteQuestionById = async function (req, res) {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-

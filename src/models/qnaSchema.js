@@ -12,6 +12,7 @@ let qnaSchema = new mongoose.Schema({
   answers: [
     {
       type: String,
+      required: false,
     },
   ],
   challengeType: {

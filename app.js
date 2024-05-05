@@ -1,38 +1,30 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const cors = require("cors");
-
-const qnaRouter = require("./src/routes/qnaRouter");
-const subjectRouter = require("./src/routes/subjectRouter");
-
+const mongoose = require("mongoose");
+const cors = require("cors")
+const {connectDb} = require("./until/connectDb");
+const userRouter = require("./src/routes/users");
+const adminRouter = require("./src/routes/admins");
+const subjectRouter = require("./src/routes/subjects");
+const qnaRouter = require("./src/routes/questions");
 require("dotenv").config({ path: "./.env" });
 
 const app = express();
 
-const port = process.env.PORT;
-
-app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors())
+app.use("/users",userRouter);
+app.use("/admins",adminRouter);
+app.use("/subjects",subjectRouter);
+app.use("/qnas",qnaRouter);
 
-app.use("/", qnaRouter);
-app.use("/", subjectRouter);
+const port = process.env.PORT;
 
 app.get("/", (req, res) => {
   res.send("hello");
 });
 
-const start = async () => {
-  try {
-    await mongoose.connect(process.env.DATABASE_CONNECTION);
-
-    app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-start();
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+  connectDb();
+});

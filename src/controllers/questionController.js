@@ -3,14 +3,12 @@ const Qna = require("../models/qnaSchema");
 exports.getAllQuestions = async function (req, res) {
   const { subjectId, challengeType } = req.query;
 
-  console.log(subjectId);
   let questionCount = 0;
   if (challengeType == "hangman") questionCount = 1;
   else if (challengeType == "qnas") questionCount = 10;
   else if (challengeType == "arrange") questionCount = 5;
 
   const questions = await Qna.find({ subjectId, challengeType });
-  console.log(questions);
 
   // pick random questions from question list
   const tmpQuestions = questions.sort(() => 0.5 - Math.random()); // shuffle questions

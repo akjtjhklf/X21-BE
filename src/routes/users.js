@@ -17,7 +17,7 @@ userRouter.post("/login", userController.login);
 userRouter.post("/register", userController.register);
 
 userRouter.put("/changeinfo/:id", userController.changeInfo);
-userRouter.put("/totalpoint/:id", userController.updateTotalPoint);
+userRouter.put("/totalpoint", userController.updateTotalPoint);
 userRouter.delete("/:id", userController.deleteUserById);
 
 module.exports = userRouter;
